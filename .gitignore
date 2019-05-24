@@ -1,4 +1,5 @@
 /__pycache__
-/.vscode
-/scheduler_env
+/gui/node_modules
+.vscode
+scheduler_env
 *.db
