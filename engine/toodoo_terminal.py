@@ -4,7 +4,7 @@ import os.path
 import sys
 from event import Event
 
-dbname = '../engine/schedule.db'
+dbname = 'schedule.db'
 
 conn = sqlite3.connect(dbname)
 c = conn.cursor()
@@ -35,11 +35,13 @@ def vali_date(date_text): # Very funny, I know
         return 1
 
 def insert_event():
-    event_name = sys.argv[1]
+    event_name = input("Event name: ")
 
-    event_date = "2019-05-15"
+    event_date = input("Event date: (YYYY-MM-DD) ")
+    while (vali_date(event_date) == 1):
+        event_date = input("Event date: (YYYY-MM-DD) ")
 
-    event_id   = 69
+    event_id   = int(input("Event ID: "))
 
     event = Event(event_name, event_date, event_id)
 
@@ -66,10 +68,17 @@ def list_events():
 
 loop = True
 
-insert_event()
-sys.stdout.flush()
-
-list_events()
+while (loop): # Main loop
+    menu_input = generate_query(["Add Event", "Delete Event", "List Events", "Exit"])
+    
+    if (menu_input == "1"):
+        insert_event()
+    elif (menu_input == "2"):
+        delete_event()
+    elif (menu_input == "3"):
+        list_events()
+    elif (menu_input == "4"):
+        loop = False
 
 conn.commit()
 conn.close()

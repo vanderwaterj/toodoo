@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>toodoo</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1 id="title">toodoo: plan your life</h1>
+
+    <div class="input-group">
+        <input class="form-control" type="text" id="nameInput" placeholder="Name">
+        <input class="form-control" type="text" id="dateInput" placeholder="Date">
+        <input class="form-control" type="text" id="idInput" placeholder="ID">
+    </div>
+
+    <button class="btn btn-primary" type="button" onclick="myToodoo()" id="submitButton">Submit</button>
+
+    <script langauge="JavaScript" type="text/javascript" src="linkers/toodoo.js"></script>
+    <script>require('./renderer.js')</script>
+</body>
+
+</html>

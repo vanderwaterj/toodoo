@@ -15,7 +15,7 @@ function createWindow() {
         },
     });
 
-    mainWindow.loadFile('gui.html');
+    mainWindow.loadFile('index.html');
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
