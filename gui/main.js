@@ -16,8 +16,8 @@ function createWindow() {
         },
         frame: false,
         icon: path.join(__dirname, 'media/toodooIcon.png'),
-        'minWidth': 400,
-        'minHeight': 300
+        'minWidth': 600,
+        'minHeight': 450
     });
 
     mainWindow.loadFile('pages/index.html');

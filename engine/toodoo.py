@@ -35,9 +35,9 @@ def vali_date(date_text): # Very funny, I know
         return 1
 
 def insert_event():
-    event_name = sys.argv[1]
-    event_date = sys.argv[2]
-    event_id   = sys.argv[3]
+    event_name = sys.argv[2]
+    event_date = sys.argv[3]
+    event_id   = sys.argv[4]
 
     event = Event(event_name, event_date, event_id)
 
@@ -45,13 +45,13 @@ def insert_event():
         try:
             c.execute(f"INSERT INTO todo VALUES (?, ?, ?)", (event.name, event.date, event.id))
         except sqlite3.IntegrityError:
-            print(f'Error: Event ID "{event.id}" is not unique.')
+            print(f'Error: Event ID ({event.id}) is not unique.')
 
 def delete_event():
-    id = int(input("Event ID: "))
+    my_id = sys.argv[4]
 
     with conn:
-        c.execute(f"DELETE FROM todo WHERE id=?", (id,))
+        c.execute(f"DELETE FROM todo WHERE id=?", (my_id,))
 
 def list_events():
     with conn:
@@ -63,8 +63,14 @@ def list_events():
 
 loop = True
 
-insert_event()
-list_events()
+func = int(sys.argv[1])
+
+if (func == 1):
+    insert_event()
+elif (func == 2):
+    delete_event()
+elif (func == 3):
+    list_events()
 
 sys.stdout.flush()
 

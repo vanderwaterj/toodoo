@@ -18,7 +18,6 @@ header {
 }
 
 .menu-buttons {
-    cursor: pointer;
     list-style: none;
     -webkit-app-region: no-drag;
     height: var(--navbar-height);
@@ -26,6 +25,7 @@ header {
 }
 
 .menu-buttons li {
+    cursor: pointer;
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -46,11 +46,16 @@ header {
     user-select: none;
 }
 
-.alert {
+.alert-success {
     padding: 20px;
     background-color: #A6D785;
     color: black;
-    margin-bottom: 15px;
+}
+
+.alert-error {
+    padding: 20px;
+    background-color: #FA8072;
+    color: black;
 }
 
 .closebtn {
