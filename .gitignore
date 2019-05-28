@@ -1,6 +1,6 @@
 */__pycache__
+__pycache__
 /gui/node_modules
 .vscode
 scheduler_env
 *.db
-/plugins
