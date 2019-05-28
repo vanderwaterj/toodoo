@@ -1,5 +1,5 @@
-*/__pycache__
-__pycache__
+__pycache__/
+*.py[cod]
 /gui/node_modules
 .vscode
 scheduler_env
