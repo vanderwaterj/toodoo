@@ -1,10 +1,18 @@
 function alertTemplate(content) {
     return `
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        ${content}
+    </div>
+    `
+    /*
+    return `
     <div class="alert alert-success alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         ${content}
     </div>
     `;
+    */
 }
 
 function myToodoo() {
@@ -13,11 +21,7 @@ function myToodoo() {
 
     var name = document.getElementById('nameInput').value;
     var date = document.getElementById('dateInput').value;
-    var id = document.getElementById('idInput').value;
-
-    document.getElementById('nameInput').value = '';
-    document.getElementById('dateInput').value = '';
-    document.getElementById('idInput').value = '';
+    var id = document.getElementById('idInput').value; 
 
     var options = {
         scriptPath: path.join(__dirname, '/../engine/'),
@@ -28,11 +32,13 @@ function myToodoo() {
         `Event ${name} successfully added.`
     )
 
-    var d1 = document.getElementById('submitButton');
+    $(document).ready(() => {
+        if ((name != "") && (date != "") && (id != "")) {
+            $('#submitButton').after(eventAddSuccessTemplate);
+        }
+    });   
 
     ps.PythonShell.run('toodoo.py', options, function (err, results) {
         if (err) throw err;
-        d1.insertAdjacentHTML('afterend',eventAddSuccessTemplate);  
-        swal(results[0]);
       });
 }

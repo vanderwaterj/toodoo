@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');
+var path = require('path')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,9 +14,13 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
         },
+        frame: false,
+        icon: path.join(__dirname, 'media/toodooIcon.png'),
+        'minWidth': 400,
+        'minHeight': 300
     });
 
-    mainWindow.loadFile('index.html');
+    mainWindow.loadFile('pages/index.html');
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
