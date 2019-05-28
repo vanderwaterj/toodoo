@@ -4,3 +4,4 @@ __pycache__
 .vscode
 scheduler_env
 *.db
+/plugins
