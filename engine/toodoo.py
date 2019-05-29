@@ -61,8 +61,6 @@ def list_events():
 
     print(events)
 
-loop = True
-
 func = int(sys.argv[1])
 
 if (func == 1):
