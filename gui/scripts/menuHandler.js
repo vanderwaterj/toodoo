@@ -1,6 +1,6 @@
 const { remote } = require('electron');
 
-var win = remote.getCurrentWindow();
+let win = remote.getCurrentWindow();
 
 $('body').prepend(`
     <header>

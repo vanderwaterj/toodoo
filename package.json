@@ -1,12 +1,12 @@
 {
-    "name": "electron-quick-start",
+    "name": "toodoo",
     "version": "1.0.0",
-    "description": "A minimal Electron application",
+    "description": "Electron application for organization and planning",
     "main": "main.js",
     "scripts": {
         "start": "electron ."
     },
-    "repository": "https://github.com/electron/electron-quick-start",
+    "repository": "https://github.com/vanderwaterj/toodoo",
     "keywords": [
         "Electron",
         "quick",
@@ -15,7 +15,7 @@
         "demo"
     ],
     "author": "GitHub",
-    "license": "CC0-1.0",
+    "license": "MIT",
     "devDependencies": {
         "electron": "^5.0.0"
     },

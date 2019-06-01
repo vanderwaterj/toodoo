@@ -8,15 +8,15 @@ function alertTemplate(type, content) {
 }
 
 function addEvent() {
-    var ps = require('python-shell');
-    var path = require('path');
+    let ps = require('python-shell');
+    let path = require('path');
 
     let func = 1;
-    var name = document.getElementById('nameInput').value;
-    var date = document.getElementById('dateInput').value;
-    var id = document.getElementById('idInput').value; 
+    let name = document.getElementById('nameInput').value;
+    let date = document.getElementById('dateInput').value;
+    let id = document.getElementById('idInput').value; 
 
-    var options = {
+    let options = {
         scriptPath: path.join(__dirname, '../../engine/'),
         args: [func, name, date, id]
     };
@@ -44,14 +44,14 @@ function addEvent() {
 }
 
 function deleteEvent() {
-    var ps = require('python-shell');
-    var path = require('path');
+    let ps = require('python-shell');
+    let path = require('path');
 
     let func = 2;
 
-    var id = document.getElementById('idInput').value; 
+    let id = document.getElementById('idInput').value; 
 
-    var options = {
+    let options = {
         scriptPath: path.join(__dirname, '../../engine/'),
         args: [func, null, null, id]
     };
@@ -78,3 +78,7 @@ function deleteEvent() {
     }
 }
 
+function listAllEvents() {
+    let ps = require('python-shell');
+    let path = require('path');
+}
