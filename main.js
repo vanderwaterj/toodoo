@@ -15,12 +15,11 @@ function createWindow() {
             nodeIntegration: true,
         },
         frame: false,
-        icon: path.join(__dirname, 'media/toodooIcon.png'),
-        'minWidth': 600,
-        'minHeight': 450
+        icon: path.join(__dirname, '/gui/media/toodooIcon.png'),
+        minWidth: 600,
+        minHeight: 450,
     });
 
-    
     mainWindow.loadFile(`${__dirname}/gui/pages/index.html`);
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
@@ -34,7 +33,7 @@ function createWindow() {
     });
 }
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

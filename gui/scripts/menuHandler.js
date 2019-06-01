@@ -1,6 +1,6 @@
 const { remote } = require('electron');
 
-let win = remote.getCurrentWindow();
+const win = remote.getCurrentWindow();
 
 $('body').prepend(`
     <header>
@@ -13,20 +13,20 @@ $('body').prepend(`
             <li class="unselectable" id="close">&times</li>
         </ul>
     </header>
-`)
+`);
 
-$('#minimize').click(function(){
+$('#minimize').click(() => {
     win.minimize();
 });
 
-$('#maximize').click(function(){
-    if(!win.isMaximized()) {
+$('#maximize').click(() => {
+    if (!win.isMaximized()) {
         win.maximize();
     } else {
         win.unmaximize();
     }
-})
+});
 
-$('#close').click(function(){
+$('#close').click(() => {
     win.close();
 });

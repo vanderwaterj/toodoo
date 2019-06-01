@@ -4,81 +4,102 @@ function alertTemplate(type, content) {
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
         ${content}
     </div>
-    `
+    `;
 }
 
 function addEvent() {
-    let ps = require('python-shell');
-    let path = require('path');
+    const ps = require('python-shell');
+    const path = require('path');
 
-    let func = 1;
-    let name = document.getElementById('nameInput').value;
-    let date = document.getElementById('dateInput').value;
-    let id = document.getElementById('idInput').value; 
+    const func = 1;
+    const name = document.getElementById('nameInput').value;
+    const date = document.getElementById('dateInput').value;
+    const id = document.getElementById('idInput').value;
 
-    let options = {
+    const options = {
         scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, name, date, id]
+        args: [func, name, date, id],
     };
 
-    const eventAddSuccessTemplate = alertTemplate(
-        'success',
-        `Event ${name} successfully added.`
-    )
+    console.log(options);
 
-    if ((name != "") && (date != "") && (id != "")) {
-        ps.PythonShell.run('toodoo.py', options, function (err, results) {
-            console.log(results);
-    
+    const eventAddSuccessTemplate = alertTemplate(
+        'success', // type of alert
+        `Event ${name} successfully added.`,
+    );
+
+    if ((name !== '') && (date !== '') && (id !== '')) {
+        ps.PythonShell.run('toodoo.py', options, (err, results) => {
             $(document).ready(() => {
-                if (results == null){
+                if (results == null) {
                     $('#submitButton').after(eventAddSuccessTemplate);
                 } else {
-                    $('#submitButton').after(alertTemplate('error', results[0]))
+                    $('#submitButton').after(alertTemplate('error', results[0]));
                 }
-            });   
-    
+            });
+
             if (err) throw err;
-          });
+        });
     }
 }
 
 function deleteEvent() {
-    let ps = require('python-shell');
-    let path = require('path');
+    const ps = require('python-shell');
+    const path = require('path');
 
-    let func = 2;
+    const func = 2;
 
-    let id = document.getElementById('idInput').value; 
+    const id = document.getElementById('idInput').value;
 
-    let options = {
+    const options = {
         scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, null, null, id]
+        args: [func, null, null, id],
     };
 
     const eventDeleteSuccessTemplate = alertTemplate(
-        'success',
-        `Event ID (${id}) successfully removed.`
-    )
+        'success', // type of alert
+        `Event ID (${id}) successfully removed.`,
+    );
 
-    if (id != "") {
-        ps.PythonShell.run('toodoo.py', options, function (err, results) {
-            console.log(results);
-    
+    if (id !== '') {
+        ps.PythonShell.run('toodoo.py', options, (err, results) => {
             $(document).ready(() => {
                 if (results == null) {
                     $('#submitButton').after(eventDeleteSuccessTemplate);
                 } else {
-                    $('#submitButton').after(alertTemplate('error', results[0]))
+                    $('#submitButton').after(alertTemplate('error', results[0]));
                 }
-            });   
-    
+            });
+
             if (err) throw err;
-          });
+        });
     }
 }
 
 function listAllEvents() {
-    let ps = require('python-shell');
-    let path = require('path');
+    const ps = require('python-shell');
+    const path = require('path');
+
+    const func = 3;
+
+    const options = {
+        scriptPath: path.join(__dirname, '../../engine/'),
+        args: [func, null, null, null],
+    };
+
+    ps.PythonShell.run('toodoo.py', options, (err, results) => {
+        for (let i = results.length - 1; i >= 0; i -= 1) {
+            const myStr = results[i].slice(1, -1).toString().replace(/'/g, '').split(', ');
+            const eventListing = alertTemplate('success',
+                `
+                Event "${myStr[0]}" on ${myStr[1]} with ID ${myStr[2]}
+                `);
+
+            $(document).ready(() => {
+                $('#listAllButton').after(eventListing);
+            });
+        }
+
+        if (err) throw err;
+    });
 }

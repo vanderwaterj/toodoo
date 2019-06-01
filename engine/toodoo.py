@@ -4,7 +4,7 @@ import os.path
 import sys
 from event import Event
 
-dbname = '../engine/schedule.db'
+dbname = 'engine/schedule.db'
 
 conn = sqlite3.connect(dbname)
 c = conn.cursor()
@@ -59,7 +59,8 @@ def list_events():
 
     events = sorted(c.fetchall(), key=lambda x: datetime.datetime.strptime(x[1], '%Y-%m-%d'))
 
-    print(events)
+    for event in events:
+        print(event)
 
 func = int(sys.argv[1])
 

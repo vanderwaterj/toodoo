@@ -1,6 +1,9 @@
+# Folders #
+node_modules/
+scheduler_env/
 __pycache__/
+
+# File Extensions #
 *.py[cod]
-node_modules
 .vscode
-scheduler_env
 *.db
