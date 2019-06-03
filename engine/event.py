@@ -5,6 +5,7 @@ def get_id(name, date):
     bytecode = namedate.encode(encoding='UTF-8')
     hash_object = hashlib.md5(bytecode)
     hex_dig = hash_object.hexdigest()
+
     return hex_dig
 
 class Event:

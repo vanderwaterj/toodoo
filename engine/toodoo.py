@@ -15,17 +15,6 @@ date text,
 id text primary key
 )""")
 
-def generate_query(elements):
-    query_string = "Select:\n"
-
-    for index, element in enumerate(elements):
-        query_string += f"\t{index + 1}.) {element}\n"
-    query_string += "?.) "
-    
-    user_choice = input(query_string)
-
-    return user_choice
-
 def vali_date(date_text): # Very funny, I know
     try:
         datetime.datetime.strptime(date_text, '%Y-%m-%d')
