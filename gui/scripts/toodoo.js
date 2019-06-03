@@ -14,11 +14,10 @@ function addEvent() {
     const func = 1;
     const name = document.getElementById('nameInput').value;
     const date = document.getElementById('dateInput').value;
-    const id = document.getElementById('idInput').value;
 
     const options = {
         scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, name, date, id],
+        args: [func, name, date],
     };
 
     console.log(options);
@@ -28,7 +27,7 @@ function addEvent() {
         `Event ${name} successfully added.`,
     );
 
-    if ((name !== '') && (date !== '') && (id !== '')) {
+    if ((name !== '') && (date !== '')) {
         ps.PythonShell.run('toodoo.py', options, (err, results) => {
             $(document).ready(() => {
                 if (results == null) {
@@ -48,20 +47,20 @@ function deleteEvent() {
     const path = require('path');
 
     const func = 2;
-
-    const id = document.getElementById('idInput').value;
+    const name = document.getElementById('nameInput').value;
+    const date = document.getElementById('dateInput').value;
 
     const options = {
         scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, null, null, id],
+        args: [func, name, date],
     };
 
     const eventDeleteSuccessTemplate = alertTemplate(
         'success', // type of alert
-        `Event ID (${id}) successfully removed.`,
+        `Event ${name} on ${date} successfully removed.`,
     );
 
-    if (id !== '') {
+    if ((name !== '') && (date !== '')) {
         ps.PythonShell.run('toodoo.py', options, (err, results) => {
             $(document).ready(() => {
                 if (results == null) {

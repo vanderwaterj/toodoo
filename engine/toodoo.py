@@ -12,7 +12,7 @@ c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS todo (
 name text,
 date text,
-id integer primary key
+id text primary key
 )""")
 
 def generate_query(elements):
@@ -37,9 +37,8 @@ def vali_date(date_text): # Very funny, I know
 def insert_event():
     event_name = sys.argv[2]
     event_date = sys.argv[3]
-    event_id   = sys.argv[4]
 
-    event = Event(event_name, event_date, event_id)
+    event = Event(event_name, event_date)
 
     with conn:
         try:
@@ -48,10 +47,11 @@ def insert_event():
             print(f'Error: Event ID ({event.id}) is not unique.')
 
 def delete_event():
-    my_id = sys.argv[4]
+    event_name = sys.argv[2]
+    event_date = sys.argv[3]
 
     with conn:
-        c.execute(f"DELETE FROM todo WHERE id=?", (my_id,))
+        c.execute(f"DELETE FROM todo WHERE name=? AND date=?", (event_name, event_date))
 
 def list_events():
     with conn:
