@@ -4,7 +4,8 @@
     "description": "Electron application for organization and planning",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "postinstall": "install-app-deps"
     },
     "repository": "https://github.com/vanderwaterj/toodoo",
     "keywords": [
@@ -18,6 +19,9 @@
     "license": "MIT",
     "dependencies": {
         "electron": "^5.0.0",
-        "python-shell": "^1.0.7"
+        "sqlite3": "^4.0.8"
+    },
+    "devDependencies": {
+        "electron-builder": "^20.41.0"
     }
 }

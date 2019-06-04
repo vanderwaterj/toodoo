@@ -7,98 +7,88 @@ function alertTemplate(type, content) {
     `;
 }
 
-function addEvent() {
-    const ps = require('python-shell');
-    const path = require('path');
+function hashString(str) {
+    const crypto = require('crypto');
+    const hash = crypto.createHash('md5').update(str).digest('hex');
 
-    const func = 1;
+    return hash;
+}
+
+function dbCommand(sqlstr, params, successMessage) {
+    const sqlite3 = require('sqlite3').verbose();
+    const db = new sqlite3.Database('schedule.db');
+
+    db.serialize(() => {
+        db.run(`
+        CREATE TABLE IF NOT EXISTS todo (
+            name text,
+            date text,
+            id text primary key
+            )
+        `);
+
+        db.run(sqlstr, params, (err, row) => {
+            $(document).ready(() => {
+                if (err) {
+                    $('#submitButton').after(alertTemplate('error', err));
+                } else {
+                    $('#submitButton').after(alertTemplate('success', successMessage));
+                }
+            });
+        });
+
+        db.close();
+    });
+}
+
+function addEvent() {
     const name = document.getElementById('nameInput').value;
     const date = document.getElementById('dateInput').value;
 
-    const options = {
-        scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, name, date],
-    };
-
-    console.log(options);
-
-    const eventAddSuccessTemplate = alertTemplate(
-        'success', // type of alert
-        `Event ${name} successfully added.`,
-    );
+    console.log(name, date);
 
     if ((name !== '') && (date !== '')) {
-        ps.PythonShell.run('toodoo.py', options, (err, results) => {
-            $(document).ready(() => {
-                if (results == null) {
-                    $('#submitButton').after(eventAddSuccessTemplate);
-                } else {
-                    $('#submitButton').after(alertTemplate('error', results[0]));
-                }
-            });
-
-            if (err) throw err;
-        });
+        dbCommand('INSERT INTO todo VALUES (?, ?, ?)', [name, date, hashString(name + date)], `Event ${name} successfully added.`);
     }
 }
 
 function deleteEvent() {
-    const ps = require('python-shell');
-    const path = require('path');
-
-    const func = 2;
     const name = document.getElementById('nameInput').value;
     const date = document.getElementById('dateInput').value;
 
-    const options = {
-        scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, name, date],
-    };
-
-    const eventDeleteSuccessTemplate = alertTemplate(
-        'success', // type of alert
-        `Event ${name} on ${date} successfully removed.`,
-    );
-
     if ((name !== '') && (date !== '')) {
-        ps.PythonShell.run('toodoo.py', options, (err, results) => {
-            $(document).ready(() => {
-                if (results == null) {
-                    $('#submitButton').after(eventDeleteSuccessTemplate);
-                } else {
-                    $('#submitButton').after(alertTemplate('error', results[0]));
-                }
-            });
-
-            if (err) throw err;
-        });
+        dbCommand('DELETE FROM todo WHERE name=? AND date=?', [name, date], `Event ${name} on ${date} successfully removed.`);
     }
 }
 
+
 function listAllEvents() {
-    const ps = require('python-shell');
-    const path = require('path');
+    const sqlite3 = require('sqlite3').verbose();
+    const db = new sqlite3.Database('schedule.db');
 
-    const func = 3;
+    db.serialize(() => {
+        db.run(`
+        CREATE TABLE IF NOT EXISTS todo (
+            name text,
+            date text,
+            id text primary key
+            )
+        `);
 
-    const options = {
-        scriptPath: path.join(__dirname, '../../engine/'),
-        args: [func, null, null, null],
-    };
+        db.all('SELECT * FROM todo ORDER BY date', [], (err, rows) => {
+            if (err) {
+                throw err;
+            }
 
-    ps.PythonShell.run('toodoo.py', options, (err, results) => {
-        for (let i = results.length - 1; i >= 0; i -= 1) {
-            const myStr = results[i].slice(1, -1).toString().replace(/'/g, '').split(', ');
-            const eventListing = alertTemplate('success',
-                `
-                Event "${myStr[0]}" on ${myStr[1]} with ID ${myStr[2]}
-                `);
+            const selectionArray = [];
 
             $(document).ready(() => {
-                $('#listAllButton').after(eventListing);
+                rows.forEach((row) => {
+                    selectionArray.push(row);
+                });
             });
-        }
 
-        if (err) throw err;
+            console.log(selectionArray);
+        });
     });
 }
