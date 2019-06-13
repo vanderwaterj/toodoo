@@ -1,3 +1,5 @@
+// -------------------- HTML Templates --------------------
+
 function alertTemplate(type, content) {
     return `
     <div class="alert-${type}">
@@ -7,12 +9,16 @@ function alertTemplate(type, content) {
     `;
 }
 
+// -------------------- Crypto Functions --------------------
+
 function hashString(str) {
     const crypto = require('crypto');
-    const hash = crypto.createHash('md5').update(str).digest('hex');
+    const hash = crypto.createHash('md5').update(str).digest('hex').slice(0, 16);
 
     return hash;
 }
+
+// -------------------- SQL Functions --------------------
 
 function dbCommand(sqlstr, params, successMessage) {
     const sqlite3 = require('sqlite3').verbose();
@@ -27,14 +33,12 @@ function dbCommand(sqlstr, params, successMessage) {
             )
         `);
 
-        db.run(sqlstr, params, (err, row) => {
-            $(document).ready(() => {
-                if (err) {
-                    $('#submitButton').after(alertTemplate('error', err));
-                } else {
-                    $('#submitButton').after(alertTemplate('success', successMessage));
-                }
-            });
+        db.run(sqlstr, params, (err) => {
+            if (err) {
+                $('#submitButton').after(alertTemplate('error', err));
+            } else {
+                $('#submitButton').after(alertTemplate('success', successMessage));
+            }
         });
 
         db.close();
@@ -44,8 +48,6 @@ function dbCommand(sqlstr, params, successMessage) {
 function addEvent() {
     const name = document.getElementById('nameInput').value;
     const date = document.getElementById('dateInput').value;
-
-    console.log(name, date);
 
     if ((name !== '') && (date !== '')) {
         dbCommand('INSERT INTO todo VALUES (?, ?, ?)', [name, date, hashString(name + date)], `Event ${name} successfully added.`);
@@ -62,33 +64,48 @@ function deleteEvent() {
 }
 
 
-function listAllEvents() {
+async function listAllEvents() {
     const sqlite3 = require('sqlite3').verbose();
     const db = new sqlite3.Database('schedule.db');
 
-    db.serialize(() => {
-        db.run(`
-        CREATE TABLE IF NOT EXISTS todo (
+    const selectionArray = [];
+
+    const promise = new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.run(`
+            CREATE TABLE IF NOT EXISTS todo (
             name text,
-            date text,
-            id text primary key
-            )
-        `);
+                date text,
+                id text primary key
+                )
+            `);
 
-        db.all('SELECT * FROM todo ORDER BY date', [], (err, rows) => {
-            if (err) {
-                throw err;
-            }
+            db.all('SELECT * FROM todo ORDER BY date', [], (err, rows) => {
+                if (err) {
+                    // add code here to reject promise
+                    throw err;
+                }
 
-            const selectionArray = [];
-
-            $(document).ready(() => {
                 rows.forEach((row) => {
                     selectionArray.push(row);
                 });
+                resolve(selectionArray);// resolve the promise
             });
-
-            console.log(selectionArray);
         });
+    });
+
+    const results = await promise;
+    return results;
+}
+
+// -------------------- DOM Manipulation Functions --------------------
+
+async function displayUpcomingEvents() {
+    const myEvents = listAllEvents();
+
+    myEvents.then((result) => {
+        for (let i = 0; i < result.length; i += 1) {
+            $('#upcomingEvents').prepend(`<li>${result[i].name}</li>`);
+        }
     });
 }

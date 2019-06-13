@@ -1,10 +1,7 @@
 # Folders #
 node_modules/
-scheduler_env/
-__pycache__/
 
 # File Extensions #
-*.py[cod]
 .vscode
 *.db
 .eslintrc.js

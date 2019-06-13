@@ -21,7 +21,7 @@ header {
     list-style: none;
     -webkit-app-region: no-drag;
     height: var(--navbar-height);
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 .menu-buttons li {
@@ -71,4 +71,35 @@ header {
   
 .closebtn:hover {
     color: black;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.box {
+    font-family: 'Helvetica Neue';
+}
+
+.box1 {
+    grid-row: 1/4;
+}
+
+.upcomingEvents {
+    padding: 0.5em;
+    text-align: center;
+    list-style: none;
+    display: grid;
+    grid-auto-rows: minmax(1em, auto);
+    grid-template-rows:repeat(3, 1fr);
+}
+
+.upcomingEvents > li {
+    background:#eee;
+}
+
+.upcomingEvents > li:nth-child(odd) {
+    background:#ddd;
 }
