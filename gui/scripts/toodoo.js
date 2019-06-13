@@ -63,7 +63,6 @@ function deleteEvent() {
     }
 }
 
-
 async function listAllEvents() {
     const sqlite3 = require('sqlite3').verbose();
     const db = new sqlite3.Database('schedule.db');
@@ -100,12 +99,28 @@ async function listAllEvents() {
 
 // -------------------- DOM Manipulation Functions --------------------
 
-async function displayUpcomingEvents() {
+async function displayUpcomingEvents(parentDiv, numEvents) {
     const myEvents = listAllEvents();
 
     myEvents.then((result) => {
-        for (let i = 0; i < result.length; i += 1) {
-            $('#upcomingEvents').prepend(`<li>${result[i].name}</li>`);
+        const len = result.length;
+
+        if (len === 0) {
+            $(`#${parentDiv}`).append('<li>No events found.</li>');
+        }
+
+        if (numEvents == null) { // Display all events
+            for (let i = 0; i < len; i += 1) {
+                $(`#${parentDiv}`).append(`<li>${result[i].name}</li>`);
+            }
+        } else { // Display a number of events equal to the value of numEvents
+            try {
+                for (let i = 0; i < numEvents; i += 1) {
+                    $(`#${parentDiv}`).append(`<li>${result[i].name}</li>`);
+                }
+            } catch (error) {
+                console.log('Error finding event.');
+            }
         }
     });
 }
