@@ -13,16 +13,26 @@
 
 </head>
 
-<body>
-    <div class="m-1 container">
-        <div class="btn-group-vertical" role="group" aria-label="Basic example">
+<body onload="displayUpcomingEvents()">
+    <div class="wrapper">
+        <div class="box box1">
+            <ul class="upcomingEvents">
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Fugiat quaerat quo pariatur minima?</li>
+                <li>Molestias ad non fugiat libero?</li>
+            </ul>
+        </div>
+        <div class="m-1 box box2">
+            <div class="btn-group-vertical" role="group" aria-label="Basic example">
             <a href="addEvent.html" class="btn btn-secondary">Add Event</a>
             <a href="removeEvent.html" class="btn btn-secondary">Remove Event</a>
             <a href="listEvents.html" class="btn btn-secondary">List Events</a>
+            </div>
         </div>
-    </div>
+    </div>    
 
     <script src="../scripts/menuHandler.js"></script>
+    <script src="../scripts/toodoo.js"></script>
 </body>
 
 </html>
