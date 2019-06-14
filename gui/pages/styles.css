@@ -22,10 +22,10 @@ ul {
 
 .logo { /* Don't remove these - for whatever reason everything breaks */
 	margin: 0;
-	font-size: 1em;
+    font-size: 1em;
 }
 
-.main-nav li, .logo a {
+.main-nav li, .logo {
 	-webkit-app-region: no-drag;
 }
 
