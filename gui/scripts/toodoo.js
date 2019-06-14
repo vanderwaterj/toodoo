@@ -88,7 +88,7 @@ async function listAllEvents() {
                 rows.forEach((row) => {
                     selectionArray.push(row);
                 });
-                resolve(selectionArray);// resolve the promise
+                resolve(selectionArray); // resolve the promise
             });
         });
     });
@@ -97,29 +97,46 @@ async function listAllEvents() {
     return results;
 }
 
+// -------------------- Other --------------------
+
+function sortIntoDates(myEvents) {
+    const len = myEvents.length;
+
+    const eventList = [];
+    const dateList = [];
+
+    for (let i = 0; i < len; i += 1) {
+        if (dateList.includes(myEvents[i].date)) {
+            eventList[dateList.indexOf(myEvents[i].date)].push(myEvents[i]);
+        } else {
+            dateList.push(myEvents[i].date);
+            eventList.push([myEvents[i]]);
+        }
+    }
+
+    return [eventList, dateList];
+}
+
 // -------------------- DOM Manipulation Functions --------------------
 
-async function displayUpcomingEvents(parentDiv, numEvents) {
+async function displayUpcomingEvents(parentDiv, datesToDisplay) {
     const myEvents = listAllEvents();
 
     myEvents.then((result) => {
-        const len = result.length;
+        const sortedToDates = sortIntoDates(result);
+        const eventList = sortedToDates[0];
+        const numDates = sortedToDates[1].length;
 
-        if (len === 0) {
-            $(`#${parentDiv}`).append('<li>No events found.</li>');
+        if (result.length === 0) {
+            $(`#${parentDiv}`).append('<p class="dateTitle">No events found.</p>');
         }
 
-        if (numEvents == null) { // Display all events
-            for (let i = 0; i < len; i += 1) {
-                $(`#${parentDiv}`).append(`<li>${result[i].name}</li>`);
-            }
-        } else { // Display a number of events equal to the value of numEvents
-            try {
-                for (let i = 0; i < numEvents; i += 1) {
-                    $(`#${parentDiv}`).append(`<li>${result[i].name}</li>`);
-                }
-            } catch (error) {
-                console.log('Error finding event.');
+        const displayUntil = (datesToDisplay == null ? numDates : datesToDisplay);
+
+        for (let i = 0; i < displayUntil; i += 1) {
+            $(`#${parentDiv}`).append(`<ul class = "dateBox" id="${eventList[i][0].date}"><p class="dateTitle">${eventList[i][0].date}</p></ul>`);
+            for (let j = 0; j < eventList[i].length; j += 1) {
+                $(`#${eventList[i][j].date}`).append(`<li>${eventList[i][j].name}</li>`);
             }
         }
     });
