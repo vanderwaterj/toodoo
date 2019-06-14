@@ -134,7 +134,7 @@ async function displayUpcomingEvents(parentDiv, datesToDisplay) {
         const displayUntil = (datesToDisplay == null ? numDates : datesToDisplay);
 
         for (let i = 0; i < displayUntil; i += 1) {
-            $(`#${parentDiv}`).append(`<ul class = "dateBox" id="${eventList[i][0].date}"><p class="dateTitle">${eventList[i][0].date}</p></ul>`);
+            $(`#${parentDiv}`).append(`<div class = "dateBox" id="${eventList[i][0].date}"><p class="dateTitle">${eventList[i][0].date}</p></div>`);
             for (let j = 0; j < eventList[i].length; j += 1) {
                 $(`#${eventList[i][j].date}`).append(`<li>${eventList[i][j].name}</li>`);
             }

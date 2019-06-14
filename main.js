@@ -17,7 +17,7 @@ function createWindow() {
         frame: false,
         icon: path.join(__dirname, '/gui/media/toodooIcon.ico'),
         minWidth: 600,
-        minHeight: 450,
+        minHeight: 600,
     });
 
     mainWindow.loadFile(`${__dirname}/gui/pages/index.html`);
