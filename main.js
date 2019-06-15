@@ -13,6 +13,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
+            // devTools: false, // This disables developer console if uncommented
         },
         frame: false,
         icon: path.join(__dirname, '/gui/media/toodooIcon.ico'),
@@ -22,7 +23,7 @@ function createWindow() {
 
     mainWindow.loadFile(`${__dirname}/gui/pages/index.html`);
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {

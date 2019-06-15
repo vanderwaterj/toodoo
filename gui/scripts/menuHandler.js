@@ -26,6 +26,10 @@ $('body').prepend(`<header class="header">
 </ul>
 </header>`);
 
+$('#settings').click(() => {
+    window.location.replace('../pages/settings.html');
+});
+
 $('#minimize').click(() => {
     win.minimize();
 });

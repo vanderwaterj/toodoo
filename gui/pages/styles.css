@@ -9,6 +9,10 @@ ul {
     list-style: none;
 }
 
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 /* ---------- Navbar CSS ---------- */
 
 .header,
