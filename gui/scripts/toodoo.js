@@ -117,6 +117,59 @@ function sortIntoDates(myEvents) {
     return [eventList, dateList];
 }
 
+function dateName(dateString) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const myDate = new Date(dateString); // .toJSON().slice(0, 10);
+    const dayName = days[myDate.getDay()];
+
+    return dayName;
+}
+
+function displayUpcomingDateNames(dateString) {
+    const today = new Date();
+    const myDate = new Date(dateString);
+    const dayDiff = Math.ceil((myDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
+
+    switch (dayDiff) {
+    case -7:
+    case -6:
+    case -5:
+    case -4:
+    case -3:
+    case -2: {
+        return `Last ${dateName(dateString)}`;
+    }
+    case -1: {
+        return 'Yesterday';
+    }
+    case 0: {
+        return 'Today';
+    }
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6: {
+        return dateName(dateString);
+    }
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13: {
+        return `Next ${dateName(dateString)}`;
+    }
+    default: {
+        const mm = parseInt(dateString.slice(5, 7), 10);
+        const dd = parseInt(dateString.slice(8, 10), 10);
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return `${months[mm - 1]} ${dd}`;
+    }
+    }
+}
 // -------------------- DOM Manipulation Functions --------------------
 
 async function displayUpcomingEvents(parentDiv, datesToDisplay) {
@@ -134,7 +187,7 @@ async function displayUpcomingEvents(parentDiv, datesToDisplay) {
         const displayUntil = (datesToDisplay == null ? numDates : datesToDisplay);
 
         for (let i = 0; i < displayUntil; i += 1) {
-            $(`#${parentDiv}`).append(`<div class = "dateBox" id="${eventList[i][0].date}"><p class="dateTitle">${eventList[i][0].date}</p></div>`);
+            $(`#${parentDiv}`).append(`<div class = "dateBox" id="${eventList[i][0].date}"><p class="dateTitle">${displayUpcomingDateNames(eventList[i][0].date)}</p></div>`);
             for (let j = 0; j < eventList[i].length; j += 1) {
                 $(`#${eventList[i][j].date}`).append(`<li>${eventList[i][j].name}</li>`);
             }
