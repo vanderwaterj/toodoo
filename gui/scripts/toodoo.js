@@ -145,7 +145,9 @@ function displayUpcomingDateNames(dateString) {
     case 0: {
         return 'Today';
     }
-    case 1:
+    case 1: {
+        return 'Tomorrow';
+    }
     case 2:
     case 3:
     case 4:
